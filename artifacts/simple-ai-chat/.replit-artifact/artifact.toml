@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Simple AI Chat"
+description = "A simple AI chatbot for asking questions and getting helpful replies in a clean, responsive chat interface."
+version = "1.0.0"
+id = "artifacts/simple-ai-chat"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25584
+
+[services.development]
+run = "pnpm --filter @workspace/simple-ai-chat run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/simple-ai-chat", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/simple-ai-chat/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25584"
+BASE_PATH = "/"
